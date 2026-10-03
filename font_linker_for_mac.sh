@@ -9,7 +9,7 @@
 #   ~/Library/Fonts/FontLinker_MorisawaCache_001.ttf
 #   ~/Library/Fonts/FontLinker_AdobeLiveType_001.otf
 
-LINK_PREFIX="FontLinker";
+LINK_PREFIX="FontLinker"
 
 set -euo pipefail
 
@@ -87,22 +87,7 @@ main() {
   log "フォントリンク作成を開始します。"
   mkdir -p "$FONT_DIR"
 
-  if [[ -L "$FONT_DIR/Morisawa.Cache" ]]; then
-    rm "$FONT_DIR/Morisawa.Cache"
-    log "削除: $FONT_DIR/Morisawa.Cache"
-  fi
-
-  if [[ -L "$FONT_DIR/Adobe.LiveType" ]]; then
-    rm "$FONT_DIR/Adobe.LiveType"
-    log "削除: $FONT_DIR/Adobe.LiveType"
-  fi
-
-  find "$FONT_DIR" -maxdepth 1 -type l \( \
-    -name 'FontLinker_MorisawaCache_*' -o \
-    -name 'FontLinker_AdobeLiveType_*' -o \
-    -name 'MorisawaCache_*' -o \
-    -name 'AdobeLiveType_*' \
-  \) -delete
+  find "$FONT_DIR" -maxdepth 1 -type l -name 'FontLinker*' -delete
 
   create_font_links "MorisawaCache" "$MORISAWA_SRC"
   create_font_links "AdobeLiveType" "$ADOBE_SRC"
