@@ -1,13 +1,13 @@
 # macOS フォントリンク作成スクリプト
 
-Morisawa および Adobe LiveType のフォントファイルを、ユーザーのフォントディレクトリ（`~/Library/Fonts`）にシンボリックリンクとして登録する zsh スクリプトです。フォントファイル自体はコピー・変更せず、元のファイルを参照するリンクを作成します。
+Morisawa TypeSquare および Adobe Fonts のフォントファイルを、ユーザーのフォントディレクトリ（`~/Library/Fonts`）にシンボリックリンクとして登録する zsh スクリプトです。フォントファイル自体はコピー・変更せず、元のファイルを参照するリンクを作成します。
 
 ## 対象のフォント
 
 スクリプトは次の場所を検索し、`.otf`、`.ttf`、`.ttc`、`.dfont` ファイルを対象にします。
 
-- Morisawa: `/Library/Application Support/Morisawa/.Cache`
-- Adobe LiveType: `~/Library/Application Support/Adobe/CoreSync/plugins/livetype`
+- Morisawa TypeSquare: `/Library/Application Support/Morisawa/.Cache`
+- Adobe Fonts: `~/Library/Application Support/Adobe/CoreSync/plugins/livetype`
 
 ソースディレクトリが見つからない場合は警告を表示し、そのディレクトリをスキップします。
 
@@ -30,7 +30,7 @@ chmod +x ./font_linker_for_mac.sh
 
 1. `~/Library/Fonts` がなければ作成します。
 2. 名前が `FontLinker` で始まるシンボリックリンクをすべて削除し、フォントリンクを作り直します。
-3. 見つかったフォントごとに、たとえば `FontLinker_MorisawaCache_001.ttf` や `FontLinker_AdobeLiveType_001.otf` の名前でシンボリックリンクを作成します。
+3. 見つかったフォントごとに、たとえば `FontLinker_MorisawaTypeSquare_001.ttf` や `FontLinker_AdobeFonts_001.otf` の名前でシンボリックリンクを作成します。
 4. `fc-cache` が利用できる場合はフォントキャッシュの更新を試み、`fc-list` が利用できる場合は検出結果を表示します。
 
 ## 注意事項

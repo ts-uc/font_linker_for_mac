@@ -1,20 +1,20 @@
 #!/bin/zsh
-# Morisawa / Adobe LiveType のフォント実体に対するシンボリックリンクを
+# Morisawa TypeSquare / Adobe Fonts のフォント実体に対するシンボリックリンクを
 # macOS のユーザーフォントディレクトリ ~/Library/Fonts 直下に作成します。
 #
 # 使い方:
 #   zsh ~/create_font_symlinks.sh
 #
 # 作成されるリンク例:
-#   ~/Library/Fonts/FontLinker_MorisawaCache_001.ttf
-#   ~/Library/Fonts/FontLinker_AdobeLiveType_001.otf
+#   ~/Library/Fonts/FontLinker_MorisawaTypeSquare_001.ttf
+#   ~/Library/Fonts/FontLinker_AdobeFonts_001.otf
 
 LINK_PREFIX="FontLinker"
 
 set -euo pipefail
 
 FONT_DIR="$HOME/Library/Fonts"
-MORISAWA_SRC="/Library/Application Support/Morisawa/.Cache"
+MORISAWA_TYPESQUARE_SRC="/Library/Application Support/Morisawa/.Cache"
 ADOBE_SRC="$HOME/Library/Application Support/Adobe/CoreSync/plugins/livetype"
 
 log() {
@@ -76,11 +76,11 @@ show_detected_fonts() {
   fi
 
   local detected
-  detected=$(fc-list | grep -E 'FontLinker_(MorisawaCache|AdobeLiveType)_' | wc -l | tr -d ' ')
+  detected=$(fc-list | grep -E 'FontLinker_(MorisawaTypeSquare|AdobeFonts)_' | wc -l | tr -d ' ')
 
   log ""
   log "通常fontconfigで検出されたフォントエントリ数: $detected"
-  fc-list | grep -E 'FontLinker_(MorisawaCache|AdobeLiveType)_' | sed -n '1,10p' || true
+  fc-list | grep -E 'FontLinker_(MorisawaTypeSquare|AdobeFonts)_' | sed -n '1,10p' || true
 }
 
 main() {
@@ -89,13 +89,13 @@ main() {
 
   find "$FONT_DIR" -maxdepth 1 -type l -name 'FontLinker*' -delete
 
-  create_font_links "MorisawaCache" "$MORISAWA_SRC"
-  create_font_links "AdobeLiveType" "$ADOBE_SRC"
+  create_font_links "MorisawaTypeSquare" "$MORISAWA_TYPESQUARE_SRC"
+  create_font_links "AdobeFonts" "$ADOBE_SRC"
 
   local total
   total=$(find "$FONT_DIR" -maxdepth 1 -type l \( \
-    -name 'FontLinker_MorisawaCache_*' -o \
-    -name 'FontLinker_AdobeLiveType_*' \
+    -name 'FontLinker_MorisawaTypeSquare_*' -o \
+    -name 'FontLinker_AdobeFonts_*' \
   \) | wc -l | tr -d ' ')
 
   log "合計: ${total} 個のシンボリックリンクを作成"
