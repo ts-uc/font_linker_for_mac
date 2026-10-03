@@ -6,8 +6,10 @@
 #   zsh ~/create_font_symlinks.sh
 #
 # 作成されるリンク例:
-#   ~/Library/Fonts/MorisawaCache_001.ttf
-#   ~/Library/Fonts/AdobeLiveType_001.otf
+#   ~/Library/Fonts/FontLinker_MorisawaCache_001.ttf
+#   ~/Library/Fonts/FontLinker_AdobeLiveType_001.otf
+
+LINK_PREFIX="FontLinker";
 
 set -euo pipefail
 
@@ -37,7 +39,7 @@ create_font_links() {
   while IFS= read -r -d '' src; do
     count=$((count + 1))
     ext="${src##*.}"
-    link=$(printf '%s/%s_%03d.%s' "$FONT_DIR" "$prefix" "$count" "$ext")
+    link=$(printf '%s/%s_%s_%03d.%s' "$FONT_DIR" "$LINK_PREFIX" "$prefix" "$count" "$ext")
     ln -s "$src" "$link"
   done < <(
     find "$srcdir" -type f \( \
@@ -74,11 +76,11 @@ show_detected_fonts() {
   fi
 
   local detected
-  detected=$(fc-list | grep -E 'MorisawaCache_|AdobeLiveType_' | wc -l | tr -d ' ')
+  detected=$(fc-list | grep -E 'FontLinker_(MorisawaCache|AdobeLiveType)_' | wc -l | tr -d ' ')
 
   log ""
   log "通常fontconfigで検出されたフォントエントリ数: $detected"
-  fc-list | grep -E 'MorisawaCache_|AdobeLiveType_' | sed -n '1,10p' || true
+  fc-list | grep -E 'FontLinker_(MorisawaCache|AdobeLiveType)_' | sed -n '1,10p' || true
 }
 
 main() {
@@ -96,6 +98,8 @@ main() {
   fi
 
   find "$FONT_DIR" -maxdepth 1 -type l \( \
+    -name 'FontLinker_MorisawaCache_*' -o \
+    -name 'FontLinker_AdobeLiveType_*' -o \
     -name 'MorisawaCache_*' -o \
     -name 'AdobeLiveType_*' \
   \) -delete
@@ -105,8 +109,8 @@ main() {
 
   local total
   total=$(find "$FONT_DIR" -maxdepth 1 -type l \( \
-    -name 'MorisawaCache_*' -o \
-    -name 'AdobeLiveType_*' \
+    -name 'FontLinker_MorisawaCache_*' -o \
+    -name 'FontLinker_AdobeLiveType_*' \
   \) | wc -l | tr -d ' ')
 
   log "合計: ${total} 個のシンボリックリンクを作成"
